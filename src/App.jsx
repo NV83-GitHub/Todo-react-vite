@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./App.css"
 
 export default function App() {
@@ -27,6 +27,18 @@ export default function App() {
     const todosCopyUpdated = todosCopy.filter(todo => todo.id !== id)
     setTodos(todosCopyUpdated)
   }
+
+  // Persistence dans le local storage 
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (storedTodos) {
+      setTodos(storedTodos);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   // Render
   return(
